@@ -9,3 +9,38 @@ export interface Intake {
   access: AccessStatus | ''
   money: MoneyStatus | ''
 }
+
+export type Priority = 'inmediata' | 'alta' | 'estandar'
+
+export interface RecoveryStep {
+  id: string
+  title: string
+  detail: string
+  why: string
+  officialUrl?: string
+  officialLabel?: string
+}
+
+export interface TriageResult {
+  priority: Priority
+  title: string
+  summary: string
+  confidence: number
+  uncertainty: string
+  reasons: string[]
+  steps: RecoveryStep[]
+}
+
+export interface ThreatPattern {
+  id: string
+  label: string
+  syntheticIndicator: string
+  category: 'suplantacion' | 'toma-de-cuenta' | 'fraude-de-pago'
+  note: string
+}
+
+export interface IndicatorMatch {
+  pattern: ThreatPattern
+  fingerprint: string
+  feedVersion: string
+}

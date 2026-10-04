@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { Intake } from './types'
+import { matchSimulatedIndicator, runSimulatedTriage, validateIntake } from './logic'
+import type { IndicatorMatch, Intake, TriageResult } from './types'
 
 const initialIntake: Intake = { incident: '', recency: '', access: '', money: '' }
 
@@ -12,18 +13,36 @@ const incidentOptions = [
 function App() {
   const [intake, setIntake] = useState<Intake>(initialIntake)
   const [message, setMessage] = useState('')
+  const [result, setResult] = useState<TriageResult | null>(null)
+  const [indicator, setIndicator] = useState<IndicatorMatch | null>(null)
+  const [working, setWorking] = useState(false)
 
   const update = (key: keyof Intake, value: string) => {
     setIntake((current) => ({ ...current, [key]: value }))
     setMessage('')
+    setResult(null)
+    setIndicator(null)
   }
 
-  const begin = () => {
-    if (Object.values(intake).some((value) => !value)) {
-      setMessage('Completa las cuatro decisiones para crear una ruta sin datos sensibles.')
+  const begin = async () => {
+    const errors = validateIntake(intake)
+    if (errors.length) {
+      setMessage(errors.join(' '))
       return
     }
-    setMessage('Selecciones completas. La evaluación simulada se añadirá en el siguiente incremento.')
+    setWorking(true)
+    try {
+      const nextResult = runSimulatedTriage(intake)
+      const nextIndicator = await matchSimulatedIndicator(intake)
+      setResult(nextResult)
+      setIndicator(nextIndicator)
+      setMessage('Ruta simulada creada. Revisa las razones y los límites antes de actuar.')
+      window.setTimeout(() => document.getElementById('resultado')?.focus(), 0)
+    } catch {
+      setMessage('No pudimos crear la ruta. Revisa las cuatro selecciones e intenta de nuevo.')
+    } finally {
+      setWorking(false)
+    }
   }
 
   return (
@@ -109,7 +128,7 @@ function App() {
 
             <div className="action-row">
               <p className="form-message" role="status" aria-live="polite">{message}</p>
-              <button className="primary-button" type="button" onClick={begin}>Crear mi ruta <span aria-hidden="true">→</span></button>
+              <button className="primary-button" type="button" onClick={begin} disabled={working}>{working ? 'Creando ruta…' : 'Crear mi ruta'} <span aria-hidden="true">→</span></button>
             </div>
           </div>
 
@@ -128,6 +147,66 @@ function App() {
             </div>
           </aside>
         </section>
+
+        {result && indicator && (
+          <section className="results-section" id="resultado" tabIndex={-1} aria-labelledby="result-title">
+            <div className="result-header">
+              <div>
+                <p className="eyebrow">Evaluación de IA simulada · no es un diagnóstico</p>
+                <h2 id="result-title">{result.title}</h2>
+                <p>{result.summary}</p>
+              </div>
+              <div className={`priority-badge priority-${result.priority}`}>
+                <span>Prioridad sugerida</span>
+                <strong>{result.priority}</strong>
+              </div>
+            </div>
+
+            <div className="explain-grid">
+              <article className="explain-card">
+                <span className="card-kicker">Por qué salió esta ruta</span>
+                <ul>{result.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>
+                <p className="confidence"><strong>Consistencia del escenario: {Math.round(result.confidence * 100)}%</strong> · No mide certeza sobre un incidente real.</p>
+              </article>
+              <article className="explain-card uncertainty-card">
+                <span className="card-kicker">Lo que no sabemos</span>
+                <p>{result.uncertainty}</p>
+                <strong>Una persona debe verificar identidad y contexto por un canal externo confiable.</strong>
+              </article>
+              <article className="explain-card feed-card">
+                <span className="card-kicker">Comparación estructurada · simulada</span>
+                <h3>{indicator.pattern.label}</h3>
+                <p>{indicator.pattern.note}</p>
+                <dl>
+                  <div><dt>Feed inventado</dt><dd>{indicator.feedVersion}</dd></div>
+                  <div><dt>Categoría</dt><dd>{indicator.pattern.category}</dd></div>
+                  <div><dt>Huella local</dt><dd><code>{indicator.fingerprint.slice(0, 16)}…</code></dd></div>
+                </dl>
+                <small>SHA-256 calculado en tu navegador sobre un indicador inventado. No se envía ni guarda el valor original.</small>
+              </article>
+            </div>
+
+            <div className="route-block">
+              <div className="section-heading compact">
+                <span className="step-number">2</span>
+                <div><p className="eyebrow">Ruta priorizada</p><h2>Haz una cosa a la vez</h2></div>
+              </div>
+              <ol className="route-list">
+                {result.steps.map((step, index) => (
+                  <li key={step.id}>
+                    <span className="route-index">{index + 1}</span>
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.detail}</p>
+                      <details><summary>¿Por qué va aquí?</summary><p>{step.why}</p></details>
+                      {step.officialUrl && <a href={step.officialUrl} target="_blank" rel="noreferrer">{step.officialLabel} <span aria-hidden="true">↗</span></a>}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        )}
       </main>
 
       <footer>
