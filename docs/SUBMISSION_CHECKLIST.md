@@ -17,8 +17,8 @@
 - [x] Packet PDF
 - [x] Persona PDF
 - [x] Build-chat PDF and UTF-8 companion text
-- [ ] GitHub repository URL - pending GitHub re-authentication
-- [ ] First Vercel deployment URL
+- [x] GitHub repository - https://github.com/davidbuzali/week-8-recupera-claro
+- [x] First Vercel deployment - https://week-8-recupera-claro-hffjg7wdp-davidbuzali.vercel.app
 - [ ] Second Vercel deployment after test/persona fix
 - [ ] Three-minute demo video plus 30-second reflection
 

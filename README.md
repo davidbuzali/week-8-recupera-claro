@@ -4,6 +4,9 @@ Recupera Claro is David Buzali's Week 8 individual build for Business Bending: a
 
 The prototype uses invented data and a deterministic **simulated-AI** triage. It stores no personal data, accepts no sensitive narrative or credentials, and does not verify identity, contact institutions, or guarantee recovery.
 
+- Live app: https://week-8-recupera-claro.vercel.app
+- GitHub: https://github.com/davidbuzali/week-8-recupera-claro
+
 See `docs/PACKET.md` for the packet-before-code evidence and `docs/IMPLEMENTATION_PROMPT.md` for the acceptance criteria and commit plan.
 
 ## Stack

@@ -37,3 +37,11 @@ All automated tests pass after the capacity fix. The manual responsive and perso
 - The same pass found that a numeric model percentage invited false confidence. Replaced it with a categorical rule-match label and explicit non-probability language.
 
 See `docs/PERSONA.md` for the full confusion log and post-fix result.
+
+## First deployment smoke test
+
+- Confirmed the public production alias loaded without protection and completed the mixed-incident path.
+- Confirmed the recent-payment scenario put the bank first and showed the categorical, non-probability rules match.
+- Verified the live response included CSP, HSTS, anti-framing, MIME-sniffing protection, no-referrer, same-origin opener, and denied microphone/camera/geolocation/payment permissions.
+- The deployment log warned that `node >=22` could automatically jump to a future major version; pinned the project to Node `22.x` for reproducibility.
+- The live CSP still permitted inline styles even though the app uses a compiled stylesheet. Removed `'unsafe-inline'` from `style-src` and added a regression assertion before the production redeploy.

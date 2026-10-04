@@ -34,3 +34,14 @@ Run the synthetic Elena walkthrough on desktop and mobile screenshots, then fix 
 ### Tomorrow's first move
 
 Ask one authorized SME incident-response professional whether the four categorical inputs, 30-minute target, and MXN 2,500 per-case hypothesis are operationally credible before involving a real victim.
+
+## 2026-10-04 - first deployment smoke close
+
+- Published the first deployment and completed the mixed-incident path on the public alias.
+- Verified the live security headers rather than relying only on `vercel.json`.
+- Pinned Node to `22.x` after Vercel warned that the previous range could cross a future major release.
+- Removed the unnecessary `'unsafe-inline'` style allowance from the production CSP before the second deployment.
+
+### Tomorrow's first move
+
+Confirm the proposed response-time and price assumptions with a named SME buyer before treating the public prototype as evidence of demand.

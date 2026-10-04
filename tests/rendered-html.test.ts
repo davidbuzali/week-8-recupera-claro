@@ -19,6 +19,8 @@ test('deployment headers deny sensitive browser capabilities', () => {
   assert.match(vercel, /geolocation=\(\)/)
   assert.match(vercel, /payment=\(\)/)
   assert.match(vercel, /frame-ancestors 'none'/)
+  assert.match(vercel, /style-src 'self'/)
+  assert.doesNotMatch(vercel, /style-src 'self' 'unsafe-inline'/)
 })
 
 test('source contains required boundaries and no environment file', () => {
