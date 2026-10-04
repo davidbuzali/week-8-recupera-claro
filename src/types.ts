@@ -44,3 +44,13 @@ export interface IndicatorMatch {
   fingerprint: string
   feedVersion: string
 }
+
+export interface MinimizedHandoff {
+  incident: string
+  recency: string
+  access: string
+  money: string
+  priority: Priority
+  identityStatus: 'no verificada'
+  excluded: string[]
+}

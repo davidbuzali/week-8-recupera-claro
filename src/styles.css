@@ -75,6 +75,7 @@ select:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible
 .capacity-card { display: flex; gap: .75rem; padding: 1rem; }
 .capacity-card p { margin: .25rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.45; }
 .status-dot { width: .65rem; height: .65rem; margin-top: .35rem; flex: 0 0 auto; border-radius: 50%; background: #1da36f; box-shadow: 0 0 0 5px #dcf7ec; }
+.status-dot.status-full { background: #d4633a; box-shadow: 0 0 0 5px #ffe7df; }
 footer { padding: 1.5rem 1.25rem; background: #06283d; color: #c2d5dc; text-align: center; font-size: .84rem; }
 footer p { margin: 0; }
 .results-section { margin-top: 2rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 1.1rem; background: #fff; box-shadow: var(--shadow); }
@@ -117,10 +118,30 @@ footer p { margin: 0; }
 .route-list summary { cursor: pointer; font-weight: 750; }
 .route-list details p { margin: .5rem 0; }
 .route-list a { color: var(--teal-dark); font-weight: 800; }
+.support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.rehearsal-card, .handoff-card { padding: 1.25rem; border: 1px solid #d5e2e4; border-radius: .9rem; background: #f8fbfb; }
+.rehearsal-card .section-heading { align-items: flex-start; }
+.rehearsal-script { padding: 1rem; border-left: 4px solid var(--teal); border-radius: .3rem; background: #fff; color: var(--navy); font-size: 1.05rem; line-height: 1.6; }
+.helper-text, .voice-message { color: var(--muted); font-size: .84rem; line-height: 1.5; }
+.voice-message { min-height: 1.3em; margin: .7rem 0 0; }
+.secondary-button { padding: .74rem 1rem; border: 1px solid var(--teal-dark); border-radius: .6rem; background: #fff; color: var(--teal-dark); font-weight: 850; }
+.secondary-button:hover { background: var(--mint); }
+.handoff-card { background: #eef8f7; border-color: #abd8d3; }
+.handoff-card.capacity-zero { background: #fff6f2; border-color: #edc0ae; }
+.operator-list { display: grid; gap: .55rem; margin: 1.2rem 0; }
+.operator-list div { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .45rem; border-bottom: 1px solid #cfe0e0; }
+.operator-list dt { color: var(--muted); }
+.operator-list dd { margin: 0; color: var(--navy); font-weight: 750; text-align: right; }
+.primary-button.wide { width: 100%; }
+.demo-link { display: block; margin: .9rem auto 0; border: 0; background: transparent; color: #58717f; text-decoration: underline; font-size: .78rem; }
+.handoff-confirmation { padding: .9rem; border-radius: .7rem; background: #fff; color: var(--navy); }
+.handoff-confirmation p { margin: .7rem 0 .4rem; }
+.handoff-confirmation code { display: block; max-height: 190px; overflow: auto; white-space: pre-wrap; color: #345666; font-size: .72rem; line-height: 1.4; }
 
 @media (max-width: 860px) {
   .hero, .triage-layout { grid-template-columns: 1fr; }
   .explain-grid { grid-template-columns: 1fr; }
+  .support-grid { grid-template-columns: 1fr; }
   .select-grid { grid-template-columns: 1fr; }
   .side-stack { grid-template-columns: 1fr 1fr; }
 }

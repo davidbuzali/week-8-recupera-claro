@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { matchSimulatedIndicator, runSimulatedTriage, validateIntake } from './logic'
+import { buildMinimizedHandoff, canRequestReview, matchSimulatedIndicator, runSimulatedTriage, validateIntake } from './logic'
 import type { IndicatorMatch, Intake, TriageResult } from './types'
 
 const initialIntake: Intake = { incident: '', recency: '', access: '', money: '' }
+const rehearsalScript = 'No compartiré códigos ni datos por esta llamada. Voy a colgar y contactaré a la institución usando el número o la aplicación oficial que ya conozco.'
 
 const incidentOptions = [
   { value: 'account', label: 'Cuenta tomada', detail: 'Perdiste acceso o alguien usa una cuenta sin permiso.' },
@@ -16,12 +17,35 @@ function App() {
   const [result, setResult] = useState<TriageResult | null>(null)
   const [indicator, setIndicator] = useState<IndicatorMatch | null>(null)
   const [working, setWorking] = useState(false)
+  const [capacity, setCapacity] = useState(3)
+  const [handoffRequested, setHandoffRequested] = useState(false)
+  const [voiceMessage, setVoiceMessage] = useState('')
 
   const update = (key: keyof Intake, value: string) => {
     setIntake((current) => ({ ...current, [key]: value }))
     setMessage('')
     setResult(null)
     setIndicator(null)
+    setHandoffRequested(false)
+  }
+
+  const speakRehearsal = () => {
+    if (!('speechSynthesis' in window)) {
+      setVoiceMessage('Tu navegador no ofrece lectura en voz alta. Puedes practicar con el texto visible.')
+      return
+    }
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(rehearsalScript)
+    utterance.lang = 'es-MX'
+    utterance.rate = 0.9
+    window.speechSynthesis.speak(utterance)
+    setVoiceMessage('Reproduciendo en tu dispositivo. No se activa ni se graba el micrófono.')
+  }
+
+  const requestReview = () => {
+    if (!result || !canRequestReview(capacity)) return
+    setHandoffRequested(true)
+    setCapacity((current) => Math.max(0, current - 1))
   }
 
   const begin = async () => {
@@ -142,8 +166,8 @@ function App() {
               </ol>
             </div>
             <div className="capacity-card">
-              <span className="status-dot" aria-hidden="true"></span>
-              <div><strong>Revisión humana simulada</strong><p>3 lugares disponibles · meta de respuesta: 30 min</p></div>
+              <span className={`status-dot ${capacity === 0 ? 'status-full' : ''}`} aria-hidden="true"></span>
+              <div><strong>Revisión humana simulada</strong><p>{capacity} lugares disponibles · meta de respuesta: 30 min</p></div>
             </div>
           </aside>
         </section>
@@ -204,6 +228,42 @@ function App() {
                   </li>
                 ))}
               </ol>
+            </div>
+
+            <div className="support-grid">
+              <article className="rehearsal-card">
+                <div className="section-heading compact">
+                  <span className="step-number">3</span>
+                  <div><p className="eyebrow">Defensa ante ingeniería social</p><h2>Practica antes de llamar</h2></div>
+                </div>
+                <p className="rehearsal-script">“{rehearsalScript}”</p>
+                <p className="helper-text">La voz se genera en tu navegador después de tu clic. No usa micrófono, no escucha y no graba.</p>
+                <button className="secondary-button" type="button" onClick={speakRehearsal}>Escuchar práctica</button>
+                <p className="voice-message" role="status" aria-live="polite">{voiceMessage}</p>
+              </article>
+
+              <article className={`handoff-card ${capacity === 0 ? 'capacity-zero' : ''}`}>
+                <p className="eyebrow">Revisión humana simulada</p>
+                <h2>{capacity > 0 ? `${capacity} lugares disponibles hoy` : 'Cupo completo por hoy'}</h2>
+                <dl className="operator-list">
+                  <div><dt>Responsable</dt><dd>Coordinación de respuesta</dd></div>
+                  <div><dt>Primera respuesta</dt><dd>Meta de 30 minutos</dd></div>
+                  <div><dt>Identidad</dt><dd>No verificada</dd></div>
+                </dl>
+                {handoffRequested && result ? (
+                  <div className="handoff-confirmation" role="status">
+                    <strong>Solicitud simulada preparada. No se envió nada.</strong>
+                    <p>Resumen minimizado:</p>
+                    <code>{JSON.stringify(buildMinimizedHandoff(intake, result), null, 2)}</code>
+                  </div>
+                ) : (
+                  <>
+                    <button className="primary-button wide" type="button" onClick={requestReview} disabled={!canRequestReview(capacity)}>{capacity > 0 ? 'Preparar solicitud simulada' : 'Intake detenido'}</button>
+                    <p className="helper-text">No es una operación real. Un servicio real verificaría tu identidad por un canal confiable y pediría tu consentimiento.</p>
+                  </>
+                )}
+                <button className="demo-link" type="button" onClick={() => { setCapacity((current) => current === 0 ? 3 : 0); setHandoffRequested(false) }}>{capacity === 0 ? 'Restaurar 3 lugares simulados' : 'Probar estado sin cupo'}</button>
+              </article>
             </div>
           </section>
         )}

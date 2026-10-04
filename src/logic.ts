@@ -1,5 +1,5 @@
 import { FEED_VERSION, incidentPatternId, simulatedThreatFeed } from './data'
-import type { IndicatorMatch, Intake, TriageResult } from './types'
+import type { IndicatorMatch, Intake, MinimizedHandoff, TriageResult } from './types'
 
 const incidents = new Set(['account', 'payment', 'identity'])
 const recencies = new Set(['now', 'today', 'older'])
@@ -79,4 +79,22 @@ export async function matchSimulatedIndicator(intake: Intake): Promise<Indicator
   const digest = await crypto.subtle.digest('SHA-256', bytes)
   const fingerprint = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')
   return { pattern, fingerprint, feedVersion: FEED_VERSION }
+}
+
+export function canRequestReview(capacity: number): boolean {
+  return Number.isInteger(capacity) && capacity > 0
+}
+
+export function buildMinimizedHandoff(intake: Intake, result: TriageResult): MinimizedHandoff {
+  const errors = validateIntake(intake)
+  if (errors.length) throw new Error(errors.join(' '))
+  return {
+    incident: intake.incident,
+    recency: intake.recency,
+    access: intake.access,
+    money: intake.money,
+    priority: result.priority,
+    identityStatus: 'no verificada',
+    excluded: ['nombre', 'correo', 'telefono', 'contrasenas', 'codigos', 'datos bancarios', 'documentos', 'archivos filtrados'],
+  }
 }
