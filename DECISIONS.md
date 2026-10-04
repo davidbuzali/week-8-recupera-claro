@@ -12,3 +12,14 @@
 ### Tomorrow's first move
 
 Implement the bounded incident intake, then test whether a stressed user can understand why no free-text box exists.
+
+## 2026-10-04 - mechanical test close
+
+- Built the intake, simulated-AI triage, structured simulated indicator match, local SHA-256 fingerprint, official escalation route, voice rehearsal, and privacy-minimized handoff.
+- The mechanical pass found that the capacity guard accepted integers above the published three-case ceiling. Restricted the valid range to one through three and kept zero as a hard stop.
+- Confirmed that the app has no upload, sensitive free-text, microphone, personal-data persistence, external API key, automatic contact, or recovery guarantee.
+- Added restrictive Vercel security headers and a visible no-send confirmation for the simulated handoff.
+
+### Tomorrow's first move
+
+Run the synthetic Elena walkthrough on desktop and mobile screenshots, then fix the highest-risk hesitation before deployment.

@@ -1,5 +1,5 @@
-import { FEED_VERSION, incidentPatternId, simulatedThreatFeed } from './data'
-import type { IndicatorMatch, Intake, MinimizedHandoff, TriageResult } from './types'
+import { FEED_VERSION, incidentPatternId, simulatedThreatFeed } from './data.ts'
+import type { IndicatorMatch, Intake, MinimizedHandoff, TriageResult } from './types.ts'
 
 const incidents = new Set(['account', 'payment', 'identity'])
 const recencies = new Set(['now', 'today', 'older'])
@@ -82,7 +82,7 @@ export async function matchSimulatedIndicator(intake: Intake): Promise<Indicator
 }
 
 export function canRequestReview(capacity: number): boolean {
-  return Number.isInteger(capacity) && capacity > 0
+  return Number.isInteger(capacity) && capacity > 0 && capacity <= 3
 }
 
 export function buildMinimizedHandoff(intake: Intake, result: TriageResult): MinimizedHandoff {
