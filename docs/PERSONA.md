@@ -46,6 +46,8 @@ Elena was asked to use the prototype to decide what to do first, understand what
 
 **Hesitation:** She wanted to know whether the bank would be offended if she hung up. The route's instruction to use the number on her card or known app resolved this.
 
+<!-- pagebreak -->
+
 ### 6. Human handoff and capacity stop
 
 **What Elena understood:** “No verificada” told her that a real human would still need to confirm identity. “No se envió nada” prevented the simulated button from being mistaken for a real request.
