@@ -30,4 +30,5 @@ export const incidentPatternId = {
   account: 'session-reset',
   payment: 'supplier-lookalike',
   identity: 'identity-credit',
+  multiple: 'supplier-lookalike',
 } as const

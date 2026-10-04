@@ -9,6 +9,7 @@ const incidentOptions = [
   { value: 'account', label: 'Cuenta tomada', detail: 'Perdiste acceso o alguien usa una cuenta sin permiso.' },
   { value: 'payment', label: 'Fraude de pago', detail: 'Hay un cargo, transferencia o instrucción de pago sospechosa.' },
   { value: 'identity', label: 'Robo de identidad', detail: 'Usaron tus datos para hacerse pasar por ti.' },
+  { value: 'multiple', label: 'No estoy segura o pasaron varias cosas', detail: 'Por ejemplo: tomaron una cuenta y además intentaron mover dinero.' },
 ] as const
 
 function App() {
@@ -190,7 +191,7 @@ function App() {
               <article className="explain-card">
                 <span className="card-kicker">Por qué salió esta ruta</span>
                 <ul>{result.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>
-                <p className="confidence"><strong>Consistencia del escenario: {Math.round(result.confidence * 100)}%</strong> · No mide certeza sobre un incidente real.</p>
+                <p className="confidence"><strong>Coincidencia de reglas: {result.ruleMatch}</strong> · Es una coincidencia categórica, no una probabilidad ni certeza sobre tu caso.</p>
               </article>
               <article className="explain-card uncertainty-card">
                 <span className="card-kicker">Lo que no sabemos</span>

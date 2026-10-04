@@ -29,6 +29,12 @@ test('active account takeover puts platform recovery first', () => {
   assert.equal(result.steps[0]?.id, 'platform')
 })
 
+test('a mixed incident can be selected without hiding recent payment risk', () => {
+  const result = runSimulatedTriage({ incident: 'multiple', recency: 'today', access: 'partial', money: 'loss' })
+  assert.equal(result.steps[0]?.id, 'bank')
+  assert.equal(result.ruleMatch, 'alta')
+})
+
 test('human-review capacity accepts only the published range', () => {
   assert.equal(canRequestReview(3), true)
   assert.equal(canRequestReview(1), true)

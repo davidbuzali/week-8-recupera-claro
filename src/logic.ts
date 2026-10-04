@@ -1,7 +1,7 @@
 import { FEED_VERSION, incidentPatternId, simulatedThreatFeed } from './data.ts'
 import type { IndicatorMatch, Intake, MinimizedHandoff, TriageResult } from './types.ts'
 
-const incidents = new Set(['account', 'payment', 'identity'])
+const incidents = new Set(['account', 'payment', 'identity', 'multiple'])
 const recencies = new Set(['now', 'today', 'older'])
 const accessStates = new Set(['lost', 'partial', 'control'])
 const moneyStates = new Set(['loss', 'attempt', 'none'])
@@ -20,7 +20,7 @@ export function runSimulatedTriage(intake: Intake): TriageResult {
   if (errors.length) throw new Error(errors.join(' '))
 
   const bankFirst = intake.money === 'loss' && (intake.recency === 'now' || intake.recency === 'today')
-  const platformFirst = intake.incident === 'account' && intake.access !== 'control'
+  const platformFirst = (intake.incident === 'account' || intake.incident === 'multiple') && intake.access !== 'control'
   const priority = bankFirst || (platformFirst && intake.recency === 'now') ? 'inmediata' : intake.money !== 'none' || intake.access === 'lost' ? 'alta' : 'estandar'
 
   const bankStep = {
@@ -63,7 +63,7 @@ export function runSimulatedTriage(intake: Intake): TriageResult {
     priority,
     title: bankFirst ? 'Primero: canal oficial de tu banco' : platformFirst ? 'Primero: recuperación oficial de la cuenta' : 'Primero: registra lo mínimo y verifica el canal',
     summary: 'Esta ruta ordena acciones plausibles a partir de cuatro categorías. No evalúa evidencia real ni confirma que el incidente ocurrió.',
-    confidence: bankFirst || platformFirst ? 0.78 : 0.62,
+    ruleMatch: bankFirst || platformFirst ? 'alta' : 'media',
     uncertainty: 'No conocemos la institución, la identidad de quien solicita ayuda, la evidencia real ni el resultado de acciones externas.',
     reasons,
     steps: uniqueSteps,

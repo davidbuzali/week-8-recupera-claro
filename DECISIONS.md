@@ -23,3 +23,14 @@ Implement the bounded incident intake, then test whether a stressed user can und
 ### Tomorrow's first move
 
 Run the synthetic Elena walkthrough on desktop and mobile screenshots, then fix the highest-risk hesitation before deployment.
+
+## 2026-10-04 - persona and final product close
+
+- The synthetic Elena walkthrough found that a real incident may span account takeover and payment fraud, while the original intake forced one category. Added a mixed/unsure choice and kept recent money loss as the first priority signal.
+- Removed the numeric simulated-model percentage after it was read as confidence about a real case. The UI now reports only a categorical rules match and defines it as non-probabilistic.
+- Verified the full route at 1440 x 900 and 390 x 844, including the zero-capacity stop and visible no-send handoff summary.
+- Preserved the Blueprint boundary: no identity verification, automated recovery, safety verdict, raw leak storage, or unverified payer claim.
+
+### Tomorrow's first move
+
+Ask one authorized SME incident-response professional whether the four categorical inputs, 30-minute target, and MXN 2,500 per-case hypothesis are operationally credible before involving a real victim.

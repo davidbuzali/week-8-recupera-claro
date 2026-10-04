@@ -26,3 +26,14 @@ The post-fix suite covers:
 - a clean TypeScript and Vite production build.
 
 All automated tests pass after the capacity fix. The manual responsive and persona passes are recorded separately after screenshot review.
+
+## Manual responsive and persona pass
+
+- Checked the clean flow and generated route at 1440 x 900 and 390 x 844.
+- Verified that controls, warnings, the simulated feed, recovery steps, voice script, and handoff remain readable without horizontal page overflow.
+- Completed the invented recent-payment/partial-access scenario and confirmed the bank appeared first.
+- Exercised the zero-capacity toggle and confirmed that intake stopped while the official route remained available.
+- The synthetic Elena pass found a blocking ambiguity for incidents spanning account takeover and payment fraud. Added a mixed/unsure choice.
+- The same pass found that a numeric model percentage invited false confidence. Replaced it with a categorical rule-match label and explicit non-probability language.
+
+See `docs/PERSONA.md` for the full confusion log and post-fix result.

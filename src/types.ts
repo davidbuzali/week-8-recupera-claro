@@ -1,4 +1,4 @@
-export type IncidentType = 'account' | 'payment' | 'identity'
+export type IncidentType = 'account' | 'payment' | 'identity' | 'multiple'
 export type Recency = 'now' | 'today' | 'older'
 export type AccessStatus = 'lost' | 'partial' | 'control'
 export type MoneyStatus = 'loss' | 'attempt' | 'none'
@@ -25,7 +25,7 @@ export interface TriageResult {
   priority: Priority
   title: string
   summary: string
-  confidence: number
+  ruleMatch: 'alta' | 'media'
   uncertainty: string
   reasons: string[]
   steps: RecoveryStep[]
