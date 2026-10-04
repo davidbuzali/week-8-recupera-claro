@@ -19,7 +19,9 @@
 - [x] Build-chat PDF and UTF-8 companion text
 - [x] GitHub repository - https://github.com/davidbuzali/week-8-recupera-claro
 - [x] First Vercel deployment - https://week-8-recupera-claro-hffjg7wdp-davidbuzali.vercel.app
-- [ ] Second Vercel deployment after test/persona fix
+- [x] Second Vercel production deployment - https://week-8-recupera-claro-kakrrcfuu-davidbuzali.vercel.app
+- [x] Stable production alias - https://week-8-recupera-claro.vercel.app
+- [x] Vercel project connected to the GitHub repository
 - [ ] Three-minute demo video plus 30-second reflection
 
 The PDFs are generated from the Markdown sources by `scripts/generate_submission_pdfs.py` and were rendered to images for page-by-page visual verification.

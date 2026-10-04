@@ -45,3 +45,14 @@ Ask one authorized SME incident-response professional whether the four categoric
 ### Tomorrow's first move
 
 Confirm the proposed response-time and price assumptions with a named SME buyer before treating the public prototype as evidence of demand.
+
+## 2026-10-04 - final deployment close
+
+- Published the second production deployment after pinning Node 22 and tightening the CSP.
+- Confirmed the stable alias serves the new policy without `'unsafe-inline'` and retains the other security headers.
+- Created and pushed the dedicated GitHub repository, then connected it to the Vercel project for future deployments.
+- The remaining submission item is the personal demo video and 30-second reflection; it requires David's own narration.
+
+### Tomorrow's first move
+
+Record the three-minute live walkthrough and personal 30-second reflection, then submit the stable URL, GitHub link, and four files together.

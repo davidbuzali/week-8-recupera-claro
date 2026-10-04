@@ -71,3 +71,32 @@ The mechanical pass found and fixed a real product defect: the human-review gate
 07  CODEX - progress update  |  04 Oct 2026 16:02:58
 The persona fixes are now visible in the working app: Elena can choose a mixed incident, a recent money movement still puts the bank first, and the interface no longer shows a misleading confidence percentage. I’ve re-run the full 9-test suite and production build successfully. I’m now packaging the required submission PDFs (packet, persona log, and an honest build transcript), then I’ll render every page for visual QA before GitHub/Vercel.
 
+08  CODEX - progress update  |  04 Oct 2026 16:05:31
+The three submission PDFs are generated and visually verified page by page; I corrected an orphaned persona heading before accepting the final render. GitHub access is indeed expired (`gh` reports the saved token as invalid), exactly as you anticipated. I’m finishing the local submission commit and checking Vercel authorization now; after that, the only GitHub step will be re-authentication and push.
+
+09  CODEX - progress update  |  04 Oct 2026 16:07:44
+The local package is complete at seven commits, with 9/9 tests passing and all PDF pages clean. Vercel authorization is still valid, so I’ve started the first deployment while GitHub remains the only expired credential. I’ll use the deployment result for a live smoke check and then publish the production redeploy.
+
+10  DAVID  |  04 Oct 2026 16:08:57
+I dont see the repository on github
+
+
+11  CODEX - progress update  |  04 Oct 2026 16:09:03
+You’re right-the repository is not on GitHub yet. The local repo is complete, but GitHub rejected the saved `davidbuzali` token as expired, so I did not claim or attempt a successful push. Vercel is already live independently. I’m starting GitHub’s re-authentication flow now; once you authorize it, I’ll create `week-8-recupera-claro` and push all seven commits.
+
+12  CODEX - progress update  |  04 Oct 2026 16:09:37
+GitHub is waiting for your approval at [github.com/login/device](https://github.com/login/device). Enter the one-time code **ECD7-E443** and approve the GitHub CLI request. I’ll keep the login session open and complete the repository creation and push as soon as it clears.
+
+13  DAVID  |  04 Oct 2026 16:10:52
+github is logged in
+
+
+14  CODEX - progress update  |  04 Oct 2026 16:10:55
+GitHub authorization is back. I’m verifying the CLI session now, then I’ll create the repository and push the complete seven-commit history. After the push, I’ll make the second Vercel deployment and update the submission checklist with both URLs.
+
+15  CODEX - progress update  |  04 Oct 2026 16:12:13
+The repository is now visible at [github.com/davidbuzali/week-8-recupera-claro](https://github.com/davidbuzali/week-8-recupera-claro), with the full seven-commit history on `main`. The live smoke test also found two deployment-hardening improvements: Vercel warned that `node >=22` could jump major versions, and the CSP still allowed inline styles unnecessarily. I’m pinning Node 22 and tightening `style-src` before the required second deployment.
+
+16  CODEX - progress update  |  04 Oct 2026 16:14:12
+The GitHub repository is pushed and the second production deployment is complete. The stable URL now serves Node 22 with the tightened CSP, and the live headers confirm the change. I’m doing the final handoff work now: link the Vercel project to the new GitHub repo, mark both deployment URLs in the checklist, refresh the build-chat PDF to include the authentication/redeployment sequence, and push that final evidence commit.
+
